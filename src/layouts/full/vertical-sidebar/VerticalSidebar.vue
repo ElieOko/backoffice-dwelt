@@ -27,7 +27,7 @@ const sidebarMenu = shallowRef(sidebarItems);
             class="leftSidebar ml-sm-5 mt-sm-5 bg-containerBg" elevation="10" :rail="customizer.mini_sidebar"
             expand-on-hover width="270">
             <div class="pa-5 pl-4 ">
-               Kontena-editor
+               API-GATEWAY-PROXY
             </div>
             <!-- ---------------------------------------------- -->
             <!---Navigation -->
