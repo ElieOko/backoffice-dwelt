@@ -9,7 +9,7 @@ import { Icon } from '@iconify/vue';
                 <img src="@/assets/images/profile/user6.jpg" width="50" alt="Mike Nielsen" />
             </v-avatar>
             <div>
-                <h6 class="text-h6 d-flex align-center font-weight-semibold">Mike Nielsen</h6>
+                <h6 class="text-h6 d-flex align-center font-weight-semibold">Kairos</h6>
                 <span class="text-subtitle-2 font-weight-medium text-grey100">Admin</span>
             </div>
             <div>

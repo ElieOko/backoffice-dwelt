@@ -32,6 +32,11 @@ export const MainRoutes ={
             component: () => import('@/views/config/serveur/ProtocoleView.vue')
         },
         {
+            name: 'serveur_test',
+            path: '/serveur/test',
+            component: () => import('@/views/config/serveur/TestServerView.vue')
+        },
+        {
             name: 'space_work',
             path: '/space/work',
             component: () => import('@/views/config/space_work/SpaceWorkView.vue')

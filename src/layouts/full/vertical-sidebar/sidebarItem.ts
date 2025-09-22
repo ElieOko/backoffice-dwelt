@@ -51,6 +51,12 @@ const sidebarItem: menu[] = [
     BgColor: 'warning',
     to: '/serveur/protocole',
   },
+  {
+    title: 'Test',
+    icon: 'carbon:connection-two-way',
+    BgColor: 'warning',
+    to: '/serveur/test',
+  },
   { header: "SpaceWork-Config" },
   {
     title: "SpaceWork",
