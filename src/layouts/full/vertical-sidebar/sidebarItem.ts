@@ -26,30 +26,29 @@ const sidebarItem: menu[] = [
   },
   { header: "Serveur-Config" },
   {
-    title: "Serveur",
+    title: "Agent",
     // subCaption: "",
     icon: 'solar:server-broken',
     BgColor: 'secondary',
-    to: '/serveur',
+    to: '/agent',
   },
-
   {
-    title: 'Collection',
+    title: 'Maison',
     icon: 'bi:collection',
     BgColor: 'warning',
-    to: '/serveur/collection',
+    to: '/maison',
   },
   {
-    title: 'Routes',
+    title: 'Reservation',
     icon: 'mdi:routes',
     BgColor: 'warning',
-    to: '/serveur/collection/route',
+    to: '/reservation',
   },
   {
-    title: 'Protocole',
+    title: 'Partenaire',
     icon: 'carbon:connection-two-way',
     BgColor: 'warning',
-    to: '/serveur/protocole',
+    to: '/partenaire',
   },
   {
     title: 'Test',

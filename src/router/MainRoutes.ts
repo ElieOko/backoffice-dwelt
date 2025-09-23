@@ -12,9 +12,25 @@ export const MainRoutes ={
             component: () => import('@/views/dashboard/MainScreenView.vue'),
         },
         {
-            name: 'serveur',
-            path: '/serveur',
-            component: () => import('@/views/config/serveur/ServerView.vue')
+            name: 'agent',
+            path: '/agent',
+            component: () => import('@/views/service/agent/AgentView.vue')
+        },
+        {
+            name: 'agent_add',
+            path: '/agent/add',
+            component: () => import('@/views/service/agent/AppendAgentView.vue')
+        },
+
+        {
+            name: 'maison',
+            path: '/maison',
+            component: () => import('@/views/service/maison/MaisonView.vue')
+        },
+        {
+            name: 'maison_add',
+            path: '/maison/add',
+            component: () => import('@/views/service/maison/AppendMaisonView.vue')
         },
         {
             name: 'serveur_collection',
