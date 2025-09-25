@@ -50,27 +50,37 @@ const sidebarItem: menu[] = [
     BgColor: 'warning',
     to: '/partenaire',
   },
+
   {
-    title: 'Test',
-    icon: 'carbon:connection-two-way',
+    title: 'Zones geographique',
+    icon: 'carbon:connection-two-way', // Route::resource('client', C
     BgColor: 'warning',
-    to: '/serveur/test',
+    to: '/zone', // Route::resource('client', C
   },
+
   { header: "SpaceWork-Config" },
+
   {
-    title: "SpaceWork",
+    title: "Setting",
     // subCaption: "",
     icon: 'carbon:workspace',
     BgColor: 'secondary',
-    to: '/space/work',
+    to: '/setting',
+  },
+   {
+    title: "Publicité",
+    // subCaption: "",
+    icon: 'carbon:workspace',
+    BgColor: 'secondary',
+    to: '/pub',
   },
 
-  {
-    title: 'User',
-    icon: 'stash:user-at-light',
-    BgColor: 'warning',
-    to: '/space/work/user',
-  },
+  // {
+  //   title: 'User',
+  //   icon: 'stash:user-at-light',
+  //   BgColor: 'warning',
+  //   to: '/space/work/user',
+  // },
 ];
 
 export default sidebarItem;

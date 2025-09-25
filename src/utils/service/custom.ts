@@ -2,8 +2,8 @@ import { useUserLocal } from "@/stores/user/local";
 import axios, { type AxiosInstance } from "axios";
 
 const serverUrl = "127.0.0.1"
-const port = 5000
-const aliasPath = "/api/v1";
+const port = 8000
+const aliasPath = "/api/";
 export const useAxiosRequest = (token:string = "") : AxiosInstance  =>{
     const useAxios: AxiosInstance = axios.create({
         baseURL               : `http://${serverUrl}:${port}${aliasPath}`,

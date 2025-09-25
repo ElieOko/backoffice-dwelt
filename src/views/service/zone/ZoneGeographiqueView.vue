@@ -1,20 +1,37 @@
 <script setup lang="ts">
-import { useAxiosRequest } from '@/utils/service/custom'
-import { ref, watchEffect } from 'vue'
+import { useAxiosRequest } from '@/utils/service/custom';
+import { ref, watchEffect } from 'vue';
 import { process, filterBy, type CompositeFilterDescriptor, type SortDescriptor } from '@progress/kendo-data-query';
 import { Grid, GridToolbar } from '@progress/kendo-vue-grid';
 import { columns } from './column';
 
+
 interface Standar{
     id: Number
     name: String
-    image: String
-    path: String
+    is_active: Boolean
+    created_at: String
+    updated_at:String
+}
+interface City {
+    id: Number
+    name: String
+    country_id: Number
+    is_active: Boolean
+    created_at: String
+    updated_at:String
+}
+interface Commune {
+    id: Number
+    name: String
+    city_id : Number
     is_active: Boolean
     created_at: String
     updated_at:String
 }
 const collectionData = ref<Array<Standar>>([])
+const collectionDataCommune = ref<Array<Commune>>([])
+const collectionDataCity = ref<Array<City>>([])
         
 const loader       = ref<Boolean>(false)
 const show       = ref<Boolean>(true)
@@ -75,12 +92,15 @@ const filterChange =  (ev:any)=> {
         filter.value = ev.filter;
         loader.value = false;
       }, 300);
-}
-    const fetchAllData = () =>{
+    }
+
+
+
+const fetchAllData = () =>{
     watchEffect(async()=>{
-        await(useAxiosRequest().get(`/partenaire`)
+        await(useAxiosRequest().get(`/country`)
             .then(function (response) {
-              collectionData.value = response.data.agents 
+              collectionData.value = response.data.country 
               console.log(collectionData.value)
             })
             .catch(function (error) {
@@ -89,15 +109,43 @@ const filterChange =  (ev:any)=> {
             .finally(function () {
                 show.value = false
             }));
+
+        await(useAxiosRequest().get(`/city`)
+            .then(function (response) {
+              collectionDataCity.value = response.data.cities 
+              console.log(collectionDataCity.value)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function () {
+                show.value = false
+            }));
+
+        await(useAxiosRequest().get(`/commune`)
+            .then(function (response) {
+              collectionDataCommune.value = response.data.communes 
+              console.log(collectionDataCommune.value)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function () {
+                show.value = false
+            }));
     })
+    
 }
-// fetchAllData()
+ fetchAllData()
+
 </script>
+
+
 <template>
-    <div>
+    <div class="">
          <v-card elevation="10" class="px-5 p-10">
         <v-btn  color="secondary" dark rounded="outlined" class="ml-auto mt-5">
-            <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Partenaire
+            <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Pays
         </v-btn>
     <v-row class="mt-5 mb-8">
         <grid
@@ -119,5 +167,56 @@ const filterChange =  (ev:any)=> {
     </v-row>
 
     </v-card>
+
+     <v-card elevation="10" class="px-5 p-10 mt-5">
+        <v-btn  color="secondary" dark rounded="outlined" class="ml-auto mt-5">
+            <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Ville
+        </v-btn>
+    <v-row class="mt-5 mb-8">
+        <grid
+            @pagechange="pageChangeHandler"
+            :columns="columns as any"
+            :total ="collectionDataCity.length"
+                :data-items="collectionDataCity"
+            :edit-field="'inEdit'"
+            :filter="filter"
+            @cellclick="cellClick"
+            :column-menu="true"
+            :pageable="gridPageable"
+            :sortable="sortable"
+            :sort="sort"
+            :take="take"
+            :skip="skip"
+            >
+        </grid>
+    </v-row>
+
+    </v-card>
+
+    <v-card elevation="10" class="px-5 p-10 mt-5">
+        <v-btn  color="secondary" dark rounded="outlined" class="ml-auto mt-5">
+            <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Commune
+        </v-btn>
+    <v-row class="mt-5 mb-8">
+        <grid
+            @pagechange="pageChangeHandler"
+            :columns="columns as any"
+            :total ="collectionDataCommune.length"
+                :data-items="collectionDataCommune"
+            :edit-field="'inEdit'"
+            :filter="filter"
+            @cellclick="cellClick"
+            :column-menu="true"
+            :pageable="gridPageable"
+            :sortable="sortable"
+            :sort="sort"
+            :take="take"
+            :skip="skip"
+            >
+        </grid>
+    </v-row>
+
+    </v-card>
     </div>
+   
 </template>

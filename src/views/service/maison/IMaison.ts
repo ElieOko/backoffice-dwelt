@@ -1,7 +1,7 @@
 interface IMaison{
     maisonId?: Number
     nom: String
-    piece: Array<IPiece>,
+    // piece: Array<IPiece>,
     caracteristique: Array<ICaracteristique>,
     images: Array<IIMage>    
     measure?: String

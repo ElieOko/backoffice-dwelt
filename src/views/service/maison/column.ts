@@ -1,7 +1,7 @@
 export const columnsMaison = [
-  { field: 'maisonId', title: 'ID', editable: false, resizable: false },
+  { field: 'id', title: 'ID', editable: false, resizable: false },
   { field: 'nom', title: 'Nom', filter: 'text', editable: false, resizable: false },
-  { field: 'piece', title: 'Pièces', editable: false, resizable: false },
+  // { field: 'piece', title: 'Pièces', editable: false, resizable: false },
   { field: 'caracteristique', title: 'Caractéristiques', editable: false, resizable: false },
 //   { field: 'images', title: 'Images', editable: false, resizable: false },
 //   { field: 'measure', title: 'Mesure', editable: false, resizable: false },

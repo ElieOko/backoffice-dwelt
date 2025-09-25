@@ -3,15 +3,14 @@
 import { process, filterBy, type CompositeFilterDescriptor, type SortDescriptor } from '@progress/kendo-data-query';
 import { Grid, GridToolbar } from '@progress/kendo-vue-grid';
 import { Loader } from '@progress/kendo-vue-indicators';
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { columnsAgent } from './column';
+import { useAxiosRequest } from '@/utils/service/custom';
+import router from '@/router';
 
-
-const show1 = ref(false);
-const dialog = ref(false);
-const notifications = ref(false);
-const sound = ref(true);
-const widgets = ref(false);
+const collectionData = ref<Array<IAgent>>([])
+const loader       = ref<Boolean>(false)
+const show       = ref<Boolean>(true)
 const type = "infinite-spinner"
 const editField = ref<any>()
 const gridPageable = {
@@ -44,43 +43,65 @@ const cellClick = (e: any) => {
       editField.value = e.field;
       e.dataItem.inEdit = e.field;
     }
-// const exitEdit =  (dataItem:any, exitEdit:any) => {
-//       if (!exitEdit && dataItem.inEdit) {
-//         return;
-//       }
-//       collectionData.value.forEach((d:any) => {
-//         if (d.inEdit) {
-//           d.inEdit = undefined;
-//         }
-//       });
-//       editField.value = undefined;
-//     }
-// const itemChange =  (e:any)=> {
-//             const data =  collectionData.value.slice();
-//             const index = data.findIndex((d  => d._id === e.dataItem.id ))
-//             data[index] = { ...data[index], [e.field]: e.value };
-//             collectionData.value  = data;
-//         }
-// const filterChange =  (ev:any)=> {
-//       loader.value = true;
-//       console.log(ev);
-//       setTimeout(() => {
-//         filter.value = ev.filter;
-//         loader.value = false;
-//       }, 300);
-//     }
+const exitEdit =  (dataItem:any, exitEdit:any) => {
+      if (!exitEdit && dataItem.inEdit) {
+        return;
+      }
+      collectionData.value.forEach((d:any) => {
+        if (d.inEdit) {
+          d.inEdit = undefined;
+        }
+      });
+      editField.value = undefined;
+    }
+const itemChange =  (e:any)=> {
+            const data =  collectionData.value.slice();
+            const index = data.findIndex((d  => d._id === e.dataItem.id ))
+            data[index] = { ...data[index], [e.field]: e.value };
+            collectionData.value  = data;
+        }
+const filterChange =  (ev:any)=> {
+      loader.value = true;
+      console.log(ev);
+      setTimeout(() => {
+        filter.value = ev.filter;
+        loader.value = false;
+      }, 300);
+    }
+
+const fetchAllData = () =>{
+    watchEffect(async()=>{
+        await(useAxiosRequest().get(`/agents/all`)
+            .then(function (response) {
+              collectionData.value = response.data.agents 
+              console.log(collectionData.value)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function () {
+                show.value = false
+            }));
+    })
+}
+fetchAllData()
+const routage = () => {
+  router.push("/agent/add");
+}
 </script>
 <template>
     <v-card elevation="10" class="px-5 p-10">
    
     
-        <v-btn color="secondary" dark rounded="outlined" class="ml-auto mt-5">
+        <v-btn @click="routage()" color="secondary" dark rounded="outlined" class="ml-auto mt-5">
             <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Ajouter un agent
         </v-btn>
     <v-row class="mt-5 mb-8">
         <grid
             @pagechange="pageChangeHandler"
             :columns="columnsAgent as any"
+            :total ="collectionData.length"
+                :data-items="collectionData"
             :edit-field="'inEdit'"
             :filter="filter"
             @cellclick="cellClick"

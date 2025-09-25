@@ -33,30 +33,31 @@ export const MainRoutes ={
             component: () => import('@/views/service/maison/AppendMaisonView.vue')
         },
         {
-            name: 'serveur_collection',
-            path: '/serveur/collection',
-            component: () => import('@/views/config/serveur/collection/CollectionView.vue')
+            name: 'partenaire',
+            path: '/partenaire',
+            component: () => import('@/views/service/partenaire/PartenaireView.vue')
         },
         {
-            name: 'serveur_collection_route',
-            path: '/serveur/collection/route',
-            component: () => import('@/views/config/serveur/collection/route/RouteView.vue')
+            name: 'reservation',
+            path: '/reservation',
+            component: () => import('@/views/service/reservation/ReservationView.vue')
         },
         {
-            name: 'serveur_protocole',
-            path: '/serveur/protocole',
-            component: () => import('@/views/config/serveur/ProtocoleView.vue')
+            name: 'pub',
+            path: '/pub',
+            component: () => import('@/views/service/pub/PubliciteView.vue')
         },
         {
-            name: 'serveur_test',
-            path: '/serveur/test',
-            component: () => import('@/views/config/serveur/TestServerView.vue')
+            name: 'zone',
+            path: '/zone',
+            component: () => import('@/views/service/zone/ZoneGeographiqueView.vue')
         },
         {
-            name: 'space_work',
-            path: '/space/work',
-            component: () => import('@/views/config/space_work/SpaceWorkView.vue')
+            name: 'setting',
+            path: '/setting',
+            component: () => import('@/views/service/setting/SettingView.vue')
         },
+       
         {
             name: 'space_work_user',
             path: '/space/work/user',
