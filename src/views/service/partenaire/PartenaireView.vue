@@ -47,9 +47,9 @@ async function prepareImages() {
   )
 }
 
-const show1 = ref(false);
+const loader = ref(false);
 const dialog = ref(false);
-const files = ref([])
+const files = ref<File[]>([]);
 const collectionData = ref<Array<Standar>>([])
 const notifications = ref(false);
 const sound = ref(true);
@@ -99,7 +99,7 @@ const exitEdit =  (dataItem:any, exitEdit:any) => {
     }
 const itemChange =  (e:any)=> {
             const data =  collectionData.value.slice();
-            const index = data.findIndex((d  => d._id === e.dataItem.id ))
+            const index = data.findIndex((d  => d.id === e.dataItem.id ))
             data[index] = { ...data[index], [e.field]: e.value };
             collectionData.value  = data;
         }
@@ -159,6 +159,9 @@ const fetchAllData = () => {
 
 fetchAllData()
 
+const filePreview = (file:File) => {
+    return URL.createObjectURL(file)
+}
 </script>
 <template>
      <div>
@@ -222,7 +225,7 @@ fetchAllData()
             <!-- Aperçu image -->
             <v-img
               v-if="file.type.startsWith('image/')"
-              :src="URL.createObjectURL(file)"
+              :src="filePreview(file)"
               height="150"
               cover
             />

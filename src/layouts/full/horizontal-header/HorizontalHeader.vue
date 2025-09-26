@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
-import { useEcomStore } from '@/stores/apps/eCommerce';
 // Icon Imports
 import { GridDotsIcon, LanguageIcon, SearchIcon, Menu2Icon, BellRingingIcon, ShoppingCartIcon } from 'vue-tabler-icons';
 //@ts-ignore
@@ -26,12 +25,6 @@ function searchbox() {
 watch(priority, (newPriority) => {
     // yes, console.log() is a side effect
     priority.value = newPriority;
-});
-
-// count items
-const store = useEcomStore();
-const getCart = computed(() => {
-    return store.cart;
 });
 
 </script>
@@ -73,7 +66,7 @@ const getCart = computed(() => {
                     <!-- ---------------------------------------------- -->
                     <div class="hidden-sm-and-down mr-sm-4 mr-4">
                         <v-btn icon variant="text" class=" mr-sm-3 mr-2" to="/ecommerce/checkout" size="small">
-                            <v-badge color="primary" :content="getCart?.length" offset-x="-4" offset-y="-6">
+                            <v-badge color="primary" :content="0" offset-x="-4" offset-y="-6">
                                 <Icon icon="solar:cart-3-line-duotone" height="24" width="24" />
                             </v-badge>
                         </v-btn>
@@ -106,7 +99,7 @@ const getCart = computed(() => {
                                 </div>
                                 <LanguageDD />
                                 <v-btn icon variant="text" class=" mr-sm-3 mr-2" to="/ecommerce/checkout" size="small">
-                                    <v-badge color="primary" :content="getCart?.length" offset-x="-4" offset-y="-6">
+                                    <v-badge color="primary" :content="0" offset-x="-4" offset-y="-6">
                                         <Icon icon="solar:cart-3-line-duotone" height="24" width="24" />
                                     </v-badge>
                                 </v-btn>

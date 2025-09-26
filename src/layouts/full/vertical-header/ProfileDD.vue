@@ -3,9 +3,9 @@ import { CircleXIcon, MailIcon } from 'vue-tabler-icons';
 import { profileDD } from '@/_mockApis/headerData';
 // import { useAuthStore } from '@/stores/auth';
 import { Icon } from '@iconify/vue';
-import { useUserLocal } from '@/stores/user/local';
+//import { useUserLocal } from '@/stores/user/local';
 //
-const stateUser = useUserLocal();
+//const stateUser = useUserLocal();
 // const authStore = useAuthStore();
 </script>
 
@@ -21,8 +21,8 @@ const stateUser = useUserLocal();
                         <img src="@/assets/images/profile/user6.jpg" width="50" alt="Mike Nielsen" />
                     </v-avatar>
                     <div class="ml-md-4 d-md-block d-none">
-                        <h6 class="text-h6 d-flex align-center text-black font-weight-semibold">{{ stateUser.local?.user?.username }}</h6>
-                        <span class="text-subtitle-2 font-weight-medium text-grey100">{{ stateUser.local?.user?.activity }}</span>
+                        <!-- <h6 class="text-h6 d-flex align-center text-black font-weight-semibold">{{ stateUser.local?.user?.username }}</h6>
+                        <span class="text-subtitle-2 font-weight-medium text-grey100">{{ stateUser.local?.user?.activity }}</span> -->
                     </div>
                 </div>
             </div>
@@ -38,14 +38,14 @@ const stateUser = useUserLocal();
                     <v-avatar size="90">
                         <img src="@/assets/images/profile/user6.jpg" width="90" />
                     </v-avatar>
-                    <div class="ml-5">
+                    <!-- <div class="ml-5">
                         <h6 class="text-h5 mb-n1">{{ stateUser.local?.user?.username }}</h6>
                         <span class="text-subtitle-1 font-weight-regular text-grey100 font-weight-medium">{{ stateUser.local?.user?.activity }}</span>
                         <div class="d-flex align-center mt-1">
                             <MailIcon size="18" stroke-width="1.5" class="text-grey100" />
                             <span class="text-subtitle-1 text-grey100 font-weight-medium ml-2">{{stateUser.local?.user?.email  }}</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <v-divider></v-divider>
             </div>
@@ -67,7 +67,7 @@ const stateUser = useUserLocal();
                 </v-list>
             </perfect-scrollbar>
             <div class=" pb-6 px-8 text-center">
-                <v-btn color="primary" size="large" rounded="pill" block @click="">Logout</v-btn>
+                <!-- <v-btn color="primary" size="large" rounded="pill" block @click="">Logout</v-btn> -->
             </div>
         </v-sheet>
     </v-menu>

@@ -29,6 +29,9 @@ const dataInput = ref<Standar>({
      updated_at: ""
 })
 
+const filePreview = (file:File) => {
+    return URL.createObjectURL(file)
+}
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -49,7 +52,8 @@ async function prepareImages() {
 
 const show1 = ref(false);
 const dialog = ref(false);
-const files = ref([])
+const loader = ref(false);
+const files = ref<File[]>([]);
 const collectionData = ref<Array<Standar>>([])
 const notifications = ref(false);
 const sound = ref(true);
@@ -99,7 +103,7 @@ const exitEdit =  (dataItem:any, exitEdit:any) => {
     }
 const itemChange =  (e:any)=> {
             const data =  collectionData.value.slice();
-            const index = data.findIndex((d  => d._id === e.dataItem.id ))
+            const index = data.findIndex((d  => d.id === e.dataItem.id ))
             data[index] = { ...data[index], [e.field]: e.value };
             collectionData.value  = data;
         }
@@ -128,7 +132,7 @@ const pushData = async () => {
       }
     }
       ).then((response) => {
-          alert(response.data.message)
+           alert(response.data.message)
           fetchAllData()
         
       }).catch(function (error) {
@@ -221,15 +225,16 @@ fetchAllData()
           <v-card>
             <!-- Aperçu image -->
             <v-img
+            
               v-if="file.type.startsWith('image/')"
-              :src="URL.createObjectURL(file)"
+              :src="filePreview(file)"
               height="150"
               cover
             />
 
             <v-card-text>
-              {{ file.name }} <br />
-              {{ (file.size / 1024).toFixed(1) }} KB
+              {{ file?.name }} <br />
+              {{ (file?.size / 1024).toFixed(1) }} KB
               <span>X</span>
               <!-- <v-btn
                 class="text-red-500"

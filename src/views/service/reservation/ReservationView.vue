@@ -60,7 +60,7 @@ const exitEdit =  (dataItem:any, exitEdit:any) => {
     }
 const itemChange =  (e:any)=> {
             const data =  collectionData.value.slice();
-            const index = data.findIndex((d  => d._id === e.dataItem.id ))
+            const index = data.findIndex((d  => d.id === e.dataItem.id ))
             data[index] = { ...data[index], [e.field]: e.value };
             collectionData.value  = data;
         }

@@ -10,8 +10,7 @@ import { progress } from '@/utils/animation/routage';
 import router from '@/router';
 import { useAxiosRequest } from '@/utils/service/custom';
 import { Parent } from '@/utils/service/proxy';
-import { setupWorkSpace } from '@/stores/login/workspace';
-import { useUserLocal } from '@/stores/user/local';
+
 
 const checkbox = ref(false);
 const show1 = ref(false);
@@ -29,7 +28,7 @@ const callComponentWithDelay = (path:string,interval : number = 2000)=>{
 async function sendPostData() {
     if(password.value.length > 3 && username.value.length > 4){
         const data = {
-            workspace : setupWorkSpace().work.workspace,
+            // workspace : setupWorkSpace().work.workspace,
             username :username.value,
             password :password.value
         }
@@ -39,7 +38,7 @@ async function sendPostData() {
                     user  : res.data.user,
                     token : res.data.token
                 }
-                useUserLocal().persistance(dataUser)
+                // useUserLocal().persistance(dataUser)
                 
                 callComponentWithDelay("/dashboard")
             }

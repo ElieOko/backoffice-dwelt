@@ -5,8 +5,9 @@ import { shallowRef } from 'vue'
 import { VFileUpload } from 'vuetify/labs/VFileUpload'
 
 let model = shallowRef([])
-const files = ref([])
-function removeFile(index) {
+const files = ref<File[]>([]);
+const loader = ref(false)
+function removeFile(index : number) {
   files.value.splice(index, 1)
 }
 
@@ -276,7 +277,11 @@ async function pushData() {
     )
   })
     
-  }
+}
+
+const filePreview = (file:File) => {
+    return URL.createObjectURL(file)
+}
 
 </script>
 
@@ -398,7 +403,7 @@ async function pushData() {
             <!-- Aperçu image -->
             <v-img
               v-if="file.type.startsWith('image/')"
-              :src="URL.createObjectURL(file)"
+              :src="filePreview(file)"
               height="150"
               cover
             />

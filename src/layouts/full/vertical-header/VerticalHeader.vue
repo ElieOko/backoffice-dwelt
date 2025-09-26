@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { ref, watch, computed,onBeforeMount  } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
-import { useEcomStore } from '@/stores/apps/eCommerce';
-import { ShoppingCartIcon, AlignLeftIcon, DotsIcon } from 'vue-tabler-icons';
 import LanguageDD from './LanguageDD.vue';
 import NotificationDD from './NotificationDD.vue';
-import MessagesDD from './MessagesDD.vue';
 import ProfileDD from './ProfileDD.vue';
 //@ts-ignore
 import Searchbar from './Searchbar.vue';
-import RightMobileSidebar from './RightMobileSidebar.vue';
+
 //@ts-ignore
 import Logo from '../logo/Logo.vue';
 import { Icon } from '@iconify/vue';
@@ -25,10 +22,7 @@ watch(priority, (newPriority) => {
 });
 
 // count items
-const store = useEcomStore();
-const getCart = computed(() => {
-    return store.cart;
-});
+
 
 //For on Scroll Effect on Header
 onBeforeMount(() => {
@@ -89,7 +83,7 @@ function handleScroll() {
                 <!-- ---------------------------------------------- -->
                 <div class="hidden-sm-and-down mr-sm-6 mr-4">
                     <v-btn icon variant="text" to="/ecommerce/checkout" size="small">
-                        <v-badge color="primary" :content="getCart?.length" offset-x="-4" offset-y="-6">
+                        <v-badge color="primary" :content="0" offset-x="-4" offset-y="-6">
                             <Icon icon="solar:cart-3-line-duotone" height="24" width="24" />
                         </v-badge>
                     </v-btn>
@@ -122,7 +116,7 @@ function handleScroll() {
                             <LanguageDD />
                             <v-btn icon variant="text" class="mr-sm-3 mr-2" to="/ecommerce/checkout"
                                 size="small">
-                                <v-badge color="primary" :content="getCart?.length" offset-x="-4" offset-y="-6">
+                                <v-badge color="primary" :content="0" offset-x="-4" offset-y="-6">
                                     <Icon icon="solar:cart-3-line-duotone" height="24" width="24" />
                                 </v-badge>
                             </v-btn>
