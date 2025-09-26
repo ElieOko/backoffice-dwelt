@@ -57,11 +57,5 @@ export const MainRoutes ={
             path: '/setting',
             component: () => import('@/views/service/setting/SettingView.vue')
         },
-       
-        {
-            name: 'space_work_user',
-            path: '/space/work/user',
-            component: () => import('@/views/config/space_work/user/UserView.vue')
-        },
     ]
 }

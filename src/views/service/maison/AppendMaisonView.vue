@@ -126,7 +126,7 @@ const dataInput = ref<IMaison>({
   agentId: "",
   cityId: "",
   communeId: "",
-  propertyId: "",
+  propertyTypeId: "",
   statusPropertyId: "",
   isDisponible: true,
   superficie:"",
@@ -241,14 +241,18 @@ async function pushData() {
   agentId: Number(dataInput.value.agentId),
   cityId: Number(dataInput.value.cityId),
   communeId: Number(dataInput.value.communeId),
-  propertyId: Number(dataInput.value.propertyId),
+  propertyTypeId: Number(dataInput.value.propertyTypeId),
   statusPropertyId: Number(dataInput.value.statusPropertyId),
-  isDisponible: true,
+  isDisponible: dataInput.value.isDisponible,
   superficie: dataInput.value.superficie,
   prix: Number(dataInput.value.prix),
-  partPayed: Number(dataInput.value.partPayed),
+  partPayed: dataInput.value.partPayed,
   countryId: Number(dataInput.value.countryId),
-  codePostal: dataInput.value.codePostal
+  codePostal: dataInput.value.codePostal,
+  chambre: Number(dataInput.value.chambre),
+  cuisine : Number(dataInput.value.cuisine),
+  salleBain: Number(dataInput.value.salleBain),
+  garage : Number(dataInput.value.garage),
   }
   
 
@@ -297,12 +301,12 @@ async function pushData() {
 
       <v-col cols="12" md="6">
         <v-label class="mb-2 font-weight-medium">Tranche</v-label>
-         <v-select :items="tranchePaiement" v-model="dataInput.partPayed"  item-title="code" id="sg" item-value="id"  single-line variant="outlined"></v-select>
+         <v-select :items="tranchePaiement" v-model="dataInput.partPayed"  item-title="name" id="sg" item-value="code"  single-line variant="outlined"></v-select>
       </v-col>
 
       <v-col cols="12" md="6">
         <v-label class="mb-2 font-weight-medium">Disponible</v-label>
-        <v-switch v-model="isDispo" color="primary" inset />
+        <v-switch v-model="dataInput.isDisponible" color="primary" inset />
       </v-col>
 
       <!-- Localisation -->
@@ -335,7 +339,7 @@ async function pushData() {
 
       <v-col cols="12" md="6">
         <v-label class="mb-2 font-weight-medium">Propriété</v-label>
-         <v-select :items="collectionProperty" v-model="dataInput.propertyId"  item-title="name" id="sg" item-value="id" single-line variant="outlined"></v-select>
+         <v-select :items="collectionProperty" v-model="dataInput.propertyTypeId"  item-title="name" id="sg" item-value="id" single-line variant="outlined"></v-select>
       </v-col>
 
       <v-col cols="12" md="6">
@@ -427,6 +431,7 @@ async function pushData() {
   </v-form>
   <!-- {{ dataInput.agentId }}
   {{ isDispo }} -->
+   {{ dataInput.partPayed }}
         <v-btn color="error" class="mr-3" rounded="pill">Cancel</v-btn>
         <v-btn color="primary" @click="pushData()" rounded="pill">Sauvegarder</v-btn>
          </v-col>

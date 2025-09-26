@@ -10,7 +10,13 @@ export interface PropertyImage {
 export interface Caracteristique {
   nom: string;
 }
-
+interface Standar{
+     id? : Number
+     name: String
+     is_active: Boolean
+     created_at: String
+     updated_at:String
+}
 export interface Property {
   id: number;
   nom: string;
@@ -34,4 +40,23 @@ export interface Property {
   created_at: string;
   updated_at: string;
   images: PropertyImage[];
+  country?: Standar
+  city?: Standar
+  commune?: Standar
+  status_property?: Standar
+  agent: Agent
+}
+
+ export interface Agent{
+     id? : Number
+     nom: String
+     description: String
+     role: String
+     phone : String
+     email : String
+     image: Array<any>
+     path : String
+     is_active: Boolean
+     created_at: String
+     updated_at:String
 }

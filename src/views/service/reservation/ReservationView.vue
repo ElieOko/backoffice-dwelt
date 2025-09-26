@@ -9,6 +9,8 @@ import { useAxiosRequest } from '@/utils/service/custom';
 import router from '@/router';
 import { columnsReservation } from './column';
 
+
+
 const collectionData = ref<Array<IAgent>>([])
 const loader       = ref<Boolean>(false)
 const show       = ref<Boolean>(true)

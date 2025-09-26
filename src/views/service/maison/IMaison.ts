@@ -8,7 +8,7 @@ interface IMaison{
     agentId: Number | String
     cityId: Number | String
     communeId: Number | String,
-    propertyId:  Number | String
+    propertyTypeId:  Number | String
     statusPropertyId: Number | String
     isDisponible: Boolean,
     superficie?: String ,
