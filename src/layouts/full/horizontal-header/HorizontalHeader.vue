@@ -44,11 +44,11 @@ watch(priority, (newPriority) => {
 
                     <v-spacer class="hidden-sm-and-down" />
                     <div class="hidden-md-and-up">
-                        <Logo />
+                        <!-- <Logo /> -->
                     </div>
 
                     <div class="hidden-sm-and-down mr-sm-6 mr-4">
-                        <Searchbar />
+                        <!-- <Searchbar /> -->
                     </div>
 
                     <!-- ---------------------------------------------- -->
@@ -95,7 +95,7 @@ watch(priority, (newPriority) => {
                         <v-sheet rounded="lg" elevation="10" class="mt-5 dropdown-box px-4 py-6">
                             <div class="d-flex justify-space-between align-center">
                                 <div class="mr-sm-3 mr-2">
-                                    <Searchbar />
+                                    <!-- <Searchbar /> -->
                                 </div>
                                 <LanguageDD />
                                 <v-btn icon variant="text" class=" mr-sm-3 mr-2" to="/ecommerce/checkout" size="small">

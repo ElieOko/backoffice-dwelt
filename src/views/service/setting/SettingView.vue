@@ -116,7 +116,7 @@ const fetchAllData = () =>{
                 console.log(error);
             })
             .finally(function () {
-                // show.value = false
+                show.value = false
             }));
     })
     
@@ -126,7 +126,7 @@ const fetchAllData = () =>{
 <template>
      <div>
         <v-card elevation="10" class="px-5 p-10">
-        <v-btn  color="secondary" dark rounded="outlined" class="ml-auto mt-5">
+        <v-btn  color="#2F4F4F" dark rounded="outlined" class="ml-auto mt-5">
             <v-icon class="mr-2">mdi-account-multiple-plus</v-icon> Caracteristique
         </v-btn>
     <v-row class="mt-5 mb-8">
@@ -150,7 +150,7 @@ const fetchAllData = () =>{
 
     </v-card>
     <v-card elevation="10" class="px-5 p-10 mt-5">
-        <v-btn  color="secondary" dark rounded="outlined" class="ml-auto mt-5">
+        <v-btn  color="#2F4F4F" dark rounded="outlined" class="ml-auto mt-5">
             <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Type de maison
         </v-btn>
     <v-row class="mt-5 mb-8">
@@ -175,7 +175,7 @@ const fetchAllData = () =>{
     </v-card>
 
     <v-card elevation="10" class="px-5 p-10 mt-5">
-        <v-btn  color="secondary" dark rounded="outlined" class="ml-auto mt-5">
+        <v-btn  color="#2F4F4F" dark rounded="outlined" class="ml-auto mt-5">
             <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Status Maison
         </v-btn>
     <v-row class="mt-5 mb-8">
@@ -199,4 +199,10 @@ const fetchAllData = () =>{
 
     </v-card>
      </div>
+      <div v-if="show" class="k-loader-container k-loader-container-md k-loader-top">
+      <div class="k-loader-container-overlay k-overlay-dark" />
+      <div class="k-loader-container-inner">
+        <Loader :size="'large'" :type="type" />
+      </div>
+    </div>
 </template>

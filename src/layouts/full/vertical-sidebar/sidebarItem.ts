@@ -18,12 +18,12 @@ export interface menu {
 
 const sidebarItem: menu[] = [
   { header: 'Accueil' },
-  {
-    title: "Dashboard",
-    icon: 'solar:screencast-2-linear',
-    BgColor: 'primary',
-    to: "/dashboard",
-  },
+  // {
+  //   title: "Dashboard",
+  //   icon: 'solar:screencast-2-linear',
+  //   BgColor: 'primary',
+  //   to: "/dashboard",
+  // },
   { header: "Serveur-Config" },
   {
     title: "Agent",
@@ -39,10 +39,16 @@ const sidebarItem: menu[] = [
     to: '/maison',
   },
   {
-    title: 'Reservation',
+    title: 'Visite',
     icon: 'mdi:routes',
     BgColor: 'warning',
-    to: '/reservation',
+    to: '/visit',
+  },
+  {
+    title: 'Demande',
+    icon: 'mdi:routes',
+    BgColor: 'warning',
+    to: '/demande',
   },
   {
     title: 'Partenaire',

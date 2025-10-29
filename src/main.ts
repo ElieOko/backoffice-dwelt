@@ -22,6 +22,7 @@ import { createI18n } from 'vue-i18n';
 import VueScrollTo from 'vue-scrollto';
 import { createVuetify } from 'vuetify';
 import vuetify from './utils/plugins/vuetify';
+import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify';
 
 const i18n = createI18n({
     locale: 'en',
@@ -40,7 +41,10 @@ const app = createApp(App)
 app.component('EasyDataTable', Vue3EasyDataTable);
 app.use(PerfectScrollbar);
 
-
+app.use(Vue3Toastify, {
+    autoClose: 9000,
+} as ToastContainerOptions)
+  
 app.use(createPinia());
 app.use(VueTablerIcons);
 // app.use(print);

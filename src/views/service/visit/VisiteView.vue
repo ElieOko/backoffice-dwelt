@@ -4,13 +4,14 @@ import { process, filterBy, type CompositeFilterDescriptor, type SortDescriptor 
 import { Grid, GridToolbar } from '@progress/kendo-vue-grid';
 import { Loader } from '@progress/kendo-vue-indicators';
 import { ref, watchEffect } from 'vue';
-import { columnsMaison } from './column';
-import type { Property } from './IDev';
+
 import { useAxiosRequest } from '@/utils/service/custom';
 import router from '@/router';
- 
+import { columns, type IVisit } from './column';
 
-const collectionData = ref<Array<Property>>([])
+
+
+const collectionData = ref<Array<IVisit>>([])
 const loader       = ref<Boolean>(false)
 const show       = ref<Boolean>(true)
 const type = "infinite-spinner"
@@ -21,7 +22,8 @@ const gridPageable = {
         type: 'numeric',
         pageSizes: true,
         previousNext: true,
-      } 
+} 
+      
 const sortable = ref(true);
 const skip = ref<number>(0);
 const take = ref<number>(4);
@@ -55,7 +57,8 @@ const exitEdit =  (dataItem:any, exitEdit:any) => {
         }
       });
       editField.value = undefined;
-    }
+}
+    
 const itemChange =  (e:any)=> {
             const data =  collectionData.value.slice();
             const index = data.findIndex((d  => d.id === e.dataItem.id ))
@@ -73,9 +76,9 @@ const filterChange =  (ev:any)=> {
 
 const fetchAllData = () =>{
     watchEffect(async()=>{
-        await(useAxiosRequest().get(`/maisons`)
+        await(useAxiosRequest().get(`/visit`)
             .then(function (response) {
-              collectionData.value = response.data.data 
+              collectionData.value = response.data.visits 
               console.log(collectionData.value)
             })
             .catch(function (error) {
@@ -86,28 +89,22 @@ const fetchAllData = () =>{
             }));
     })
 }
-const routage = (path : string) => {
-  router.push(path);
-}
 fetchAllData()
+const routage = () => {
+  router.push("/agent/add");
+}
 </script>
 <template>
     <v-card elevation="10" class="px-5 p-10">
-   
-    
-        <v-btn @click="routage('/maison/add')" color="#2F4F4F" dark rounded="outlined" class="ml-auto mt-5">
-            <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Ajouter une maison
-        </v-btn>
-        <div class="px-5">
-
-        </div>
-        <v-btn @click="routage('maison/all')" color="#2F4F4F" dark rounded="outlined" class="ml-auto mt-5">
-            <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Voir toutes les maisons
-        </v-btn>
+   <v-label class="mb-2 font-weight-medium mt-5">Toutes les visites</v-label>
+<!--     
+        <v-btn @click="routage()" color="secondary" dark rounded="outlined" class="ml-auto mt-5">
+            <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Ajouter un agent
+        </v-btn> -->
     <v-row class="mt-5 mb-8">
         <grid
             @pagechange="pageChangeHandler"
-            :columns="columnsMaison as any"
+            :columns="columns as any"
             :total ="collectionData.length"
             :data-items="collectionData"
             :edit-field="'inEdit'"
@@ -120,15 +117,9 @@ fetchAllData()
             :take="take"
             :skip="skip"
             >
-
             </grid>
     </v-row>
 
     </v-card>
-    <div v-if="show" class="k-loader-container k-loader-container-md k-loader-top">
-      <div class="k-loader-container-overlay k-overlay-dark" />
-      <div class="k-loader-container-inner">
-        <Loader :size="'large'" :type="type" />
-      </div>
-    </div>
-</template>
+    
+</template>reservation

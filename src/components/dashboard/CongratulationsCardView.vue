@@ -118,7 +118,7 @@ const chartOptions = computed(() => {
 </script>
 <template>
     <v-card elevation="10" >
-        <v-card-text class="position-relative pb-0 border-bottom">
+        <!-- <v-card-text class="position-relative pb-0 border-bottom">
             <h5 class="text-h4 mb-1 font-weight-semibold">
                 
             </h5>
@@ -180,6 +180,6 @@ const chartOptions = computed(() => {
                 <apexchart type="line" height="260" :options="chartOptions" :series="chartOptions.series"> </apexchart>
             </div>
 
-        </v-card-text>
+        </v-card-text> -->
     </v-card>
 </template>

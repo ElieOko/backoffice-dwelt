@@ -19,7 +19,8 @@ interface IMaison{
     salleBain?: Number
     cuisine?: Number
     garage?: Number
-    chambre? : Number
+    chambre?: Number;
+    description?:String
     
 }
 

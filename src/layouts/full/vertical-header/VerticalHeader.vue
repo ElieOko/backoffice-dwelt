@@ -72,7 +72,7 @@ function handleScroll() {
                 <!-- translate -->
                 <!-- ---------------------------------------------- -->
                 <div class="hidden-sm-and-down mr-sm-6 mr-4">
-                    <Searchbar />
+                    <!-- <Searchbar /> -->
                 </div>
                 <div class="hidden-sm-and-down mr-sm-6 mr-4">
                     <LanguageDD />
@@ -82,11 +82,11 @@ function handleScroll() {
                 <!-- ShoppingCart -->
                 <!-- ---------------------------------------------- -->
                 <div class="hidden-sm-and-down mr-sm-6 mr-4">
-                    <v-btn icon variant="text" to="/ecommerce/checkout" size="small">
+                    <!-- <v-btn icon variant="text" to="/ecommerce/checkout" size="small">
                         <v-badge color="primary" :content="0" offset-x="-4" offset-y="-6">
                             <Icon icon="solar:cart-3-line-duotone" height="24" width="24" />
                         </v-badge>
-                    </v-btn>
+                    </v-btn> -->
                 </div>
                 <!-- ---------------------------------------------- -->
                 <!-- Notification -->
@@ -111,7 +111,7 @@ function handleScroll() {
                     <v-sheet rounded="lg" elevation="10" class="mt-5 dropdown-box px-4 py-6">
                         <div class="d-flex justify-space-between align-center">
                             <div class="mr-sm-3 mr-2">
-                                <Searchbar />
+                                <!-- <Searchbar /> -->
                             </div>
                             <LanguageDD />
                             <v-btn icon variant="text" class="mr-sm-3 mr-2" to="/ecommerce/checkout"

@@ -6,13 +6,16 @@ import { Loader } from '@progress/kendo-vue-indicators';
 import { ref, watchEffect } from 'vue';
 import { VFileUpload } from 'vuetify/labs/VFileUpload'
 import { columns } from './column';
+import { toast } from 'vue3-toastify';
+import router from '@/router';
 
-interface IFile{
+export interface IFile{
      nom: String
 }
 interface Standar{
      id? : Number
-     name: String
+     name: String,
+     description?:String,
      image: Array<IFile>
      path : String
      is_active: Boolean
@@ -50,7 +53,7 @@ async function prepareImages() {
   )
 }
 
-const show1 = ref(false);
+const show = ref(true);
 const dialog = ref(false);
 const loader = ref(false);
 const files = ref<File[]>([]);
@@ -118,9 +121,12 @@ const filterChange =  (ev:any)=> {
 
 
 const pushData = async () => {
-     await prepareImages()
+    
+  await prepareImages()
+     show.value = true
      const objSend = {
-          name: dataInput.value.name,
+       name: dataInput.value.name,
+          decription:dataInput.value.description,
           images : dataInput.value.image
      }
      watchEffect(async () => {
@@ -132,19 +138,29 @@ const pushData = async () => {
       }
     }
       ).then((response) => {
-           alert(response.data.message)
-          fetchAllData()
+        notify(response.data.message)
+           dialog.value = false
+        fetchAllData()
+        dataInput.value.name = ""
+        dataInput.value.description = ""
+        dataInput.value.image=[]
         
       }).catch(function (error) {
         console.log(error);
+        notify(`${error}`)
         alert(error)
       }).finally(function () {
-               // show.value = false
+               show.value = false
       })
     )
   })
 }
 
+const notify = (msg:string) => {
+      toast(msg, {
+        autoClose: 5000,
+      });
+}
 const fetchAllData = () => {
      watchEffect(async () => {
           await (useAxiosRequest().get(`/publicite`)
@@ -156,13 +172,16 @@ const fetchAllData = () => {
                     console.log(error);
                })
                .finally(function () {
-                    // show.value = false
+                    show.value = false
                }));
      })
 }
 
 fetchAllData()
 
+const routage = (path : string) => {
+  router.push(path);
+}
 </script>
 <template>
      <div>
@@ -174,8 +193,14 @@ fetchAllData()
       transition="dialog-bottom-transition"
     >
       <template v-slot:activator="{ props }">
-        <v-btn color="secondary" dark v-bind="props" rounded="outlined" class="ml-auto mt-5">
+        <v-btn color="#2F4F4F" dark v-bind="props" rounded="outlined" class="ml-auto mt-5">
             <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Ajouter une publicité
+        </v-btn>
+        <div class="px-5">
+
+        </div>
+        <v-btn color="#2F4F4F" rounded="outlined" @click="routage('/pub/all')" class="ml-auto mt-5">
+            <v-icon class="mr-2">mdi-account-multiple-plus</v-icon> Voir toutes les publicités
         </v-btn>
       </template>
       <v-card class="p-10">
@@ -200,7 +225,13 @@ fetchAllData()
                             v-model="dataInput.name"
                             hide-details="auto"></VTextField>
                     </v-col>
+                     
                 </v-row>
+                  <v-col cols="12" sm="4">
+<v-label class="mb-2 font-weight-medium" for="fn">Description</v-label>
+                    <v-textarea variant="outlined" color="primary" v-model="dataInput.description" id="ln"></v-textarea>
+                  </v-col>
+                 
                 <v-col cols="12">
            <v-container>
     <!-- Upload -->
@@ -257,18 +288,24 @@ fetchAllData()
   </v-container>
       </v-col>
                 <v-col cols="12" sm="4">
-                    <v-btn size="large" rounded="pill" @click="pushData()" color="primary" class="bg-red-500"   block type="button" flat>Sauvegarder</v-btn>
+                    <v-btn size="large" rounded="pill" @click="pushData()" color="#2F4F4F" class="bg-red-500"   block type="button" flat>Sauvegarder</v-btn>
                 </v-col>
             </Form>
         </v-card-item>
       </v-card>
+      <div v-if="show" class="k-loader-container k-loader-container-md k-loader-top">
+      <div class="k-loader-container-overlay k-overlay-dark" />
+      <div class="k-loader-container-inner">
+        <Loader :size="'large'" :type="type" />
+      </div>
+    </div>
           </v-dialog>
                <v-row class="mt-5 mb-8">
            <grid
             @pagechange="pageChangeHandler"
             :columns="columns as any"
             :total ="collectionData.length"
-                :data-items="collectionData"
+            :data-items="collectionData"
             :edit-field="'inEdit'"
             :filter="filter"
             @cellclick="cellClick"
@@ -285,4 +322,10 @@ fetchAllData()
           </v-card>
          
      </div>
+      <div v-if="show" class="k-loader-container k-loader-container-md k-loader-top">
+      <div class="k-loader-container-overlay k-overlay-dark" />
+      <div class="k-loader-container-inner">
+        <Loader :size="'large'" :type="type" />
+      </div>
+    </div>
 </template>

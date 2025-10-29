@@ -173,7 +173,7 @@ const filePreview = (file:File) => {
       transition="dialog-bottom-transition"
     >
       <template v-slot:activator="{ props }">
-        <v-btn color="secondary" dark v-bind="props" rounded="outlined" class="ml-auto mt-5">
+        <v-btn color="#2F4F4F" dark v-bind="props" rounded="outlined" class="ml-auto mt-5">
             <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Ajouter un partenaire
         </v-btn>
       </template>
@@ -192,7 +192,7 @@ const filePreview = (file:File) => {
             <Form class="">
                 <v-row>
                     <v-col cols="12" sm="4">
-                        <v-label class="text-subtitle-1 font-weight-medium pb-2">Titre</v-label>
+                        <v-label class="text-subtitle-1 font-weight-medium pb-2">Nom du partenaire</v-label>
                         <VTextField
                             class="mb-4"
                             required
@@ -254,9 +254,9 @@ const filePreview = (file:File) => {
     </div>
   </v-container>
       </v-col>
-                <v-col cols="12" sm="4">
-                    <v-btn size="large" rounded="pill" @click="pushData()" color="primary" class="bg-red-500"   block type="button" flat>Sauvegarder</v-btn>
-                </v-col>
+                <div class="mb-8 flex justify-center p-8">
+                    <v-btn class="w-[450px]" size="large" rounded="pill" @click="pushData()" color="#2F4F4F"  type="button" flat>Sauvegarder</v-btn>
+                </div>
             </Form>
         </v-card-item>
       </v-card>

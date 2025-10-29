@@ -6,6 +6,8 @@ import { Loader } from '@progress/kendo-vue-indicators';
 import { ref, watchEffect } from 'vue';
 import { VFileUpload } from 'vuetify/labs/VFileUpload'
 import { columns } from './column';
+import 'vue3-toastify/dist/index.css';
+import { toast } from 'vue3-toastify';
 
 interface IFile{
      nom: String
@@ -55,14 +57,11 @@ async function prepareImages() {
   )
 }
 
-const show1 = ref(false);
-const dialog = ref(false);
-const loader = ref(false);
+const loader       = ref<Boolean>(false)
+const show       = ref<Boolean>(true)
+const dialog = ref(false)
 const files = ref<File[]>([]);
 const collectionData = ref<Array<Standar>>([])
-const notifications = ref(false);
-const sound = ref(true);
-const widgets = ref(false);
 const type = "infinite-spinner"
 const editField = ref<any>()
 const gridPageable = {
@@ -120,10 +119,15 @@ const filterChange =  (ev:any)=> {
         loader.value = false;
       }, 300);
     }
-
+const notify = (msg:string) => {
+      toast(msg, {
+        autoClose: 5000,
+      });
+}
 
 const pushData = async () => {
-     await prepareImages()
+  await prepareImages()
+     show.value = true
 const objSend = {
        nom: dataInput.value.nom,
        role: dataInput.value.role,
@@ -141,14 +145,21 @@ const objSend = {
       }
     }
       ).then((response) => {
-          alert(response.data.message)
+        dialog.value = false
+          notify(response.data.message)
           fetchAllData()
+        dataInput.value.description = ""
+        dataInput.value.nom = ""
+        dataInput.value.phone = ""
+        dataInput.value.description = ""
+        dataInput.value.email = ""
+          dataInput.value.image=[]
         
       }).catch(function (error) {
         console.log(error);
         alert(error)
       }).finally(function () {
-               // show.value = false
+          show.value = false
       })
     )
   })
@@ -165,7 +176,7 @@ const fetchAllData = () => {
                     console.log(error);
                })
                .finally(function () {
-                    // show.value = false
+                    show.value = false
                }));
      })
 }
@@ -179,6 +190,7 @@ const filePreview = (file:File) => {
 <template>
      <div>
           <v-card elevation="10" class="px-5 p-10">
+            <!-- <v-label class="mb-2 font-weight-medium mt-5">Toutes les Agents</v-label> -->
           <v-dialog
       v-model="dialog"
       fullscreen
@@ -186,19 +198,19 @@ const filePreview = (file:File) => {
       transition="dialog-bottom-transition"
     >
       <template v-slot:activator="{ props }">
-        <v-btn color="secondary" dark v-bind="props" rounded="outlined" class="ml-auto mt-5">
+        <v-btn color="#2F4F4F" dark v-bind="props" rounded="outlined" class="ml-auto mt-5">
             <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Ajouter un Agent Immobilier
         </v-btn>
       </template>
       <v-card class="p-10">
-        <v-toolbar dark style="flex: unset">
+        <v-toolbar class="" dark style="flex: unset;background:#2F4F4F ;">
           <v-btn icon color="white" @click="dialog = false" flat>
             <XIcon  width="20" />
           </v-btn>
-          <v-toolbar-title class="text-white">Append Agent Immobilier</v-toolbar-title>
+          <v-toolbar-title class="text-white ">Append Agent Immobilier</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark color="white" @click="dialog = false" flat> Save </v-btn>
+            <v-btn dark color="white" @click="dialog = false" flat>  </v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-card-item class="px-4">
@@ -287,12 +299,18 @@ const filePreview = (file:File) => {
     </div>
   </v-container>
       </v-col>
-                <v-col cols="12" sm="4">
-                    <v-btn size="large" rounded="pill" @click="pushData()" color="primary" class="bg-red-500"   block type="button" flat>Sauvegarder</v-btn>
-                </v-col>
+                <div class="mb-8 flex justify-center p-8">
+                    <v-btn class="w-[450px]" size="large" rounded="pill" @click="pushData()" color="#2F4F4F" type="button" flat>Sauvegarder</v-btn>
+                </div>
             </Form>
         </v-card-item>
       </v-card>
+      <div v-if="show" class="k-loader-container k-loader-container-md k-loader-top">
+      <div class="k-loader-container-overlay k-overlay-dark" />
+      <div class="k-loader-container-inner">
+        <Loader :size="'large'" :type="type" />
+      </div>
+    </div>
           </v-dialog>
                <v-row class="mt-5 mb-8">
            <grid
@@ -316,4 +334,10 @@ const filePreview = (file:File) => {
           </v-card>
          
      </div>
+      <div v-if="show" class="k-loader-container k-loader-container-md k-loader-top">
+      <div class="k-loader-container-overlay k-overlay-dark" />
+      <div class="k-loader-container-inner">
+        <Loader :size="'large'" :type="type" />
+      </div>
+    </div>
 </template>

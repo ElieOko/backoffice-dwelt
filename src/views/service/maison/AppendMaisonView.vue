@@ -3,14 +3,15 @@ import { useAxiosRequest } from '@/utils/service/custom';
 import { ref, watchEffect } from 'vue';
 import { shallowRef } from 'vue'
 import { VFileUpload } from 'vuetify/labs/VFileUpload'
-
-let model = shallowRef([])
+import 'vue3-toastify/dist/index.css';
+import { toast } from 'vue3-toastify';
 const files = ref<File[]>([]);
 const loader = ref(false)
-function removeFile(index : number) {
-  files.value.splice(index, 1)
-}
-
+// function removeFile(index : number) {
+//   files.value.splice(index, 1)
+// }
+const type = "infinite-spinner"
+const show       = ref<Boolean>(true)
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -28,18 +29,11 @@ async function prepareImages() {
     }))
   )
 }
-
-const uniteMesureMaison: Array<IUniteMeasure & { id: number }> = [
-  { id: 1, name: "Mètre carré", code: "m2" },
-  { id: 2, name: "Mètre cube", code: "m3" },
-  { id: 3, name: "Mètre", code: "m" },
-  { id: 4, name: "Centimètre", code: "cm" },
-  { id: 5, name: "Kilomètre", code: "km" },
-  { id: 6, name: "Hectare", code: "ha" },
-  { id: 7, name: "Acre", code: "ac" },
-  { id: 8, name: "Pied carré", code: "ft2" },
-  { id: 9, name: "Yard carré", code: "yd2" }
-]
+const notify = (msg:string) => {
+      toast(msg, {
+        autoClose: 5000,
+      });
+}
 
 const tranchePaiement: Array<{ id: number; name: string; code: string }> = [
   { id: 1, name: "Paiement mensuel", code: "mois" },
@@ -48,37 +42,6 @@ const tranchePaiement: Array<{ id: number; name: string; code: string }> = [
   { id: 4, name: "Paiement annuel", code: "annee" },
   { id: 5, name: "Paiement unique", code: "unique" }
 ]
-
-const communesKinshasa: { id: number; nom: string; cityId: number }[] = [
-  { id: 1, nom: "Barumbu", cityId: 1 },
-  { id: 2, nom: "Bumbu", cityId: 1 },
-  { id: 3, nom: "Gombe", cityId: 1 },
-  { id: 4, nom: "Kalamu", cityId: 1 },
-  { id: 5, nom: "Kasa-Vubu", cityId: 1 },
-  { id: 6, nom: "Kimbanseke", cityId: 1 },
-  { id: 7, nom: "Kinshasa", cityId: 1 },
-  { id: 8, nom: "Kintambo", cityId: 1 },
-  { id: 9, nom: "Kisenso", cityId: 1 },
-  { id: 10, nom: "Lemba", cityId: 1 },
-  { id: 11, nom: "Limete", cityId: 1 },
-  { id: 12, nom: "Lingwala", cityId: 1 },
-  { id: 13, nom: "Makala", cityId: 1 },
-  { id: 14, nom: "Maluku", cityId: 1 },
-  { id: 15, nom: "Masina", cityId: 1 },
-  { id: 16, nom: "Matete", cityId: 1 },
-  { id: 17, nom: "Mont Ngafula", cityId: 1 },
-  { id: 18, nom: "Ndjili", cityId: 1 },
-  { id: 19, nom: "Ngaba", cityId: 1 },
-  { id: 20, nom: "Ngaliema", cityId: 1 },
-  { id: 21, nom: "Nsele", cityId: 1 },
-  { id: 22, nom: "Selembao", cityId: 1 },
-  { id: 23, nom: "Ngiri-Ngiri", cityId: 1 },
-  { id: 24, nom: "Bandalungwa", cityId: 1 }
-]
-
-const cities = ref<ICity[]>([
-  { id: 1, nom: 'Kinshasa' }
-]);
 
 
 interface Standar{
@@ -116,25 +79,27 @@ const collectionDataCity = ref<Array<City>>([])
 
 const select = ref([]);
 
-let isDispo = ref(true)
-
 const dataInput = ref<IMaison>({
   maisonId: 0,
   nom: "",
   caracteristique: [], // ex: [{ nom: "" }]
   images: [], // ex: [{ nom: "" }]
-  measure:"",
-  agentId: "",
-  cityId: "",
-  communeId: "",
-  propertyTypeId: "",
-  statusPropertyId: "",
+  measure:"0",
+  agentId: 1,
+  cityId: 1,
+  communeId: 4,
+  propertyTypeId: 1,
+  statusPropertyId: 2,
   isDisponible: true,
-  superficie:"",
+  superficie:"0",
   prix: 0,
   partPayed: "",
-  countryId: "",
-  codePostal: ""
+  countryId: 1,
+  codePostal: "012",
+  cuisine: 0,
+  chambre: 0,
+  salleBain:0,
+  garage:0
 })
 
 
@@ -228,12 +193,10 @@ const fetchAllData = () =>{
 }
  fetchAllData()
 async function pushData() {
+ show.value = true
+await prepareImages()
 
-
-
-  await prepareImages()
-
-  const objSend = {
+const objSend = {
   maisonId: dataInput.value.maisonId,
   nom: dataInput.value.nom,               // [{ nom, nombre }]
   caracteristique: dataInput.value.caracteristique, // [{ nom }]
@@ -253,7 +216,9 @@ async function pushData() {
   chambre: Number(dataInput.value.chambre),
   cuisine : Number(dataInput.value.cuisine),
   salleBain: Number(dataInput.value.salleBain),
-  garage : Number(dataInput.value.garage),
+  garage: Number(dataInput.value.garage),
+  description: dataInput.value.description
+  
   }
   
 
@@ -266,13 +231,15 @@ async function pushData() {
       }
     }
       ).then((response) => {
-        alert("Enregistement reussie")
+         notify(response.data.message)
+      //  alert("Enregistement reussie")
         
       }).catch(function (error) {
         console.log(error);
+         notify(`${error} une erreur est sur les champs envoyés`)
         alert(error)
       }).finally(function () {
-               // show.value = false
+               show.value = false
       })
     )
   })
@@ -294,88 +261,97 @@ const filePreview = (file:File) => {
                 <v-form>
     <v-row>
       <!-- Infos générales -->
-      <v-col cols="12" md="6">
-        <v-label class="mb-2 font-weight-medium">Nom de la maison</v-label>
+      <v-col cols="12" md="4">
+        <v-label class="mb-2 font-weight-medium">Nom de la maison *</v-label>
         <v-text-field variant="outlined" v-model="dataInput.nom" color="primary" />
       </v-col>
 
-      <v-col cols="12" md="6">
-        <v-label class="mb-2 font-weight-medium">Prix</v-label>
+      <v-col cols="12" md="4">
+        <v-label class="mb-2 font-weight-medium">Prix *</v-label>
         <v-text-field type="number" variant="outlined" v-model="dataInput.prix" color="primary" />
       </v-col>
 
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
         <v-label class="mb-2 font-weight-medium">Tranche</v-label>
          <v-select :items="tranchePaiement" v-model="dataInput.partPayed"  item-title="name" id="sg" item-value="code"  single-line variant="outlined"></v-select>
       </v-col>
 
-      <v-col cols="12" md="6">
+      <!-- <v-col cols="12" md="6">
         <v-label class="mb-2 font-weight-medium">Disponible</v-label>
         <v-switch v-model="dataInput.isDisponible" color="primary" inset />
-      </v-col>
+      </v-col> -->
 
       <!-- Localisation -->
       <v-col cols="12" md="4">
-        <v-label class="mb-2 font-weight-medium">Pays</v-label>
+        <v-label class="mb-2 font-weight-medium">Pays *</v-label>
         <v-select :items="collectionData" v-model="dataInput.countryId"  item-title="name" id="sg" item-value="id" single-line variant="outlined"></v-select>
       </v-col>
 
       <v-col cols="12" md="4">
-        <v-label class="mb-2 font-weight-medium">Ville</v-label>
+        <v-label class="mb-2 font-weight-medium">Ville *</v-label>
         
        <v-select :items="collectionDataCity" v-model="dataInput.cityId"  item-title="name" id="sg" item-value="id"  single-line variant="outlined"></v-select>
       </v-col>
 
       <v-col cols="12" md="4">
-        <v-label class="mb-2 font-weight-medium">Commune</v-label>
+        <v-label class="mb-2 font-weight-medium">Commune *</v-label>
          <v-select :items="collectionDataCommune" v-model="dataInput.communeId"  item-title="name" id="sg" item-value="id" single-line variant="outlined"></v-select>
       </v-col>
 
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
         <v-label class="mb-2 font-weight-medium">Code Postal</v-label>
         <v-text-field variant="outlined" v-model="dataInput.codePostal" color="primary" />
       </v-col>
 
       <!-- Agent / Propriété -->
-      <v-col cols="12" md="6">
-        <v-label class="mb-2 font-weight-medium">Agent</v-label>
+      <v-col cols="12" md="4">
+        <v-label class="mb-2 font-weight-medium">Agent *</v-label>
        <v-select :items="collectionDataAgent" v-model="dataInput.agentId"  item-title="nom" id="sg" item-value="id" single-line variant="outlined"></v-select>
       </v-col>
 
-      <v-col cols="12" md="6">
-        <v-label class="mb-2 font-weight-medium">Propriété</v-label>
+      <v-col cols="12" md="4">
+        <v-label class="mb-2 font-weight-medium">Propriété *</v-label>
          <v-select :items="collectionProperty" v-model="dataInput.propertyTypeId"  item-title="name" id="sg" item-value="id" single-line variant="outlined"></v-select>
       </v-col>
 
-      <v-col cols="12" md="6">
-        <v-label class="mb-2 font-weight-medium">Statut</v-label>
+      <v-col cols="12" md="4">
+        <v-label class="mb-2 font-weight-medium">Statut *</v-label>
         <v-select :items="collectionDataStatus" v-model="dataInput.statusPropertyId"  item-title="name" id="sg" item-value="id" single-line variant="outlined"></v-select>
       </v-col>
 
       <!-- Sections complexes -->
-      <v-col cols="12">
+      <v-col cols="12" md="4">
         <v-label class="mb-2 font-weight-medium">Superficie terrain maison</v-label>
-         <v-text-field type="text" variant="outlined" v-model="dataInput.superficie" color="primary" />
+         <v-text-field type="number" variant="outlined" v-model="dataInput.superficie" color="primary" />
       </v-col>
 
-      <v-col cols="12">
+      <v-col cols="12" md="4">
         <v-label class="mb-2 font-weight-medium">Mesure</v-label>
-        <v-text-field type="text" variant="outlined" v-model="dataInput.measure" color="primary" />
+        <v-text-field type="number" variant="outlined" v-model="dataInput.measure" color="primary" />
       </v-col>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="4">
                 <v-label class="mb-2 font-weight-medium">Chambre</v-label>
                 <v-text-field type="number" variant="outlined" v-model="dataInput.chambre" color="primary" />
-                <v-label class="mb-2 font-weight-medium">Cuisine</v-label>
-                <v-text-field type="number" variant="outlined" v-model="dataInput.cuisine" color="primary" />
-                 <v-label class="mb-2 font-weight-medium">Salle de bain</v-label>
-                <v-text-field type="number" variant="outlined" v-model="dataInput.salleBain" color="primary" />
-                 <v-label class="mb-2 font-weight-medium">Garage</v-label>
-                <v-text-field type="number" variant="outlined" v-model="dataInput.garage" color="primary" />
         </v-col>
-
-      <v-col cols="12">
+      <v-col cols="12" md="4">
+        <v-label class="mb-2 font-weight-medium">Cuisine</v-label>
+        <v-text-field type="number" variant="outlined" v-model="dataInput.cuisine" color="primary" />
+      </v-col>
+      <v-col cols="12" md="4">
+         <v-label class="mb-2 font-weight-medium">Salle de bain</v-label>
+                <v-text-field type="number" variant="outlined" v-model="dataInput.salleBain" color="primary" />
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-label class="mb-2 font-weight-medium">Garage</v-label>
+                <v-text-field type="number" variant="outlined" v-model="dataInput.garage" color="primary" />
+      </v-col>
+      <v-col cols="12" md="4">
         <v-label class="mb-2 font-weight-medium">Caractéristiques</v-label>
          <v-combobox v-model="select" :items="collectionCaracteristique" hide-details label="" item-title="name"  item-value="id" item-text="label" multiple chips return-object></v-combobox>
+      </v-col>
+      <v-col cols="12" md="6">
+          <v-label class="mb-2 font-weight-medium" for="fn">Description</v-label>
+          <v-textarea variant="outlined" color="primary" v-model="dataInput.description" id="ln"></v-textarea>
       </v-col>
 
       <v-col cols="12">
@@ -436,13 +412,20 @@ const filePreview = (file:File) => {
   </v-form>
   <!-- {{ dataInput.agentId }}
   {{ isDispo }} -->
-   {{ dataInput.partPayed }}
-        <v-btn color="error" class="mr-3" rounded="pill">Cancel</v-btn>
-        <v-btn color="primary" @click="pushData()" rounded="pill">Sauvegarder</v-btn>
+        <div class="mb-8 flex justify-center p-8">
+             <!-- <v-btn color="error" class="mr-3" rounded="pill">Cancel</v-btn> -->
+              <v-btn color="#2F4F4F" class="w-[450px]" @click="pushData()" rounded="pill">Sauvegarder</v-btn>
+        </div>
+       
          </v-col>
     </v-row>
     </v-card>
 
 
-
+<!-- <div v-if="show" class="k-loader-container k-loader-container-md k-loader-top">
+      <div class="k-loader-container-overlay k-overlay-dark" />
+      <div class="k-loader-container-inner">
+        <Loader :size="'large'" :type="type" />
+      </div>
+    </div> -->
 </template>
