@@ -244,6 +244,7 @@ async function pushData() {
   const objSend = {
     nom: collectionDataGet.value.nom,           
     isDisponible: collectionDataGet.value.isDisponible,
+    prix: collectionDataGet.value.prix
   }
   
   // watchEffect(async () => {
@@ -251,7 +252,7 @@ async function pushData() {
       useAxiosRequest().put(`maisons/${Number(collectionDataGet.value.id)}`, objSend
       ).then((response) => {
         // alert("Enregistement reussie")
-        notify(response.data.message)
+        notify("Modification reussie avec succes")
        
         
       }).catch(function (error) {
